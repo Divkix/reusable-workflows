@@ -8,28 +8,33 @@ on:
         default: ""
         required: false
         type: string
+      os:
+        description: "Operating system to run on"
+        default: "ubuntu-latest"
+        required: false
+        type: string
+      python-version:
+        description: "Python version to use"
+        default: "3.10"
+        required: false
+        type: string
 
 jobs:
   build-and-test:
     name: Build and Test Package
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.8", "3.9", "3.10"]
-        os: [ubuntu-latest, macOS-latest, windows-latest]
+    runs-on: ${{ inputs.os }}
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ needs.get-repo-info.outputs.tag }}
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python ${{ inputs.python-version }}
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ inputs.python-version }}
       - name: Install dependencies & Configuring
         run: |-
-          pip3 install --upgrade pip setuptools wheel pytest
+          pip3 install --upgrade pip setuptools wheel
           pip3 install --upgrade poetry
           poetry config virtualenvs.create false
           poetry install
