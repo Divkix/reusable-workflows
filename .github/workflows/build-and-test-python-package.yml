@@ -1,0 +1,39 @@
+name: Build and Test Python Package
+
+on:
+  workflow_call:
+    inputs:
+      custom_commands:
+        description: "Custom commands to run before building and testing"
+        default: ""
+        required: false
+        type: string
+
+jobs:
+  build-and-test:
+    name: Build and Test Package
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8", "3.9", "3.10"]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.get-repo-info.outputs.tag }}
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies & Configuring
+        run: |-
+          pip3 install --upgrade pip setuptools wheel pytest
+          pip3 install --upgrade poetry
+          poetry config virtualenvs.create false
+          poetry install
+      - name: Run custom commands
+        if: ${{ inputs.custom_commands != '' }}
+        run: |-
+          ${{ inputs.custom_commands }}

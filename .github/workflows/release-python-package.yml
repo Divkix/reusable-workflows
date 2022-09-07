@@ -1,0 +1,55 @@
+name: Release Python Package
+
+on:
+  workflow_call:
+    inputs:
+      version_level:
+        description: "Level of version to update. Can be major, minor or patch"
+        default: "patch"
+        required: false
+        type: string
+      custom_commands:
+        description: "Custom commands to run before building and testing"
+        default: ""
+        required: false
+        type: string
+
+jobs:
+  pre-commit:
+    uses: divkix/reusable-workflows/.github/workflows/pre-commit.yml@main
+
+  update-version:
+    needs: pre-commit
+    uses: divkix/reusable-workflows/.github/workflows/update-python-package-version.yml@main
+    with:
+      version_level: ${{ inputs.version_level }}
+
+  # fetch some info from repo such as latest tag and name in lowercase
+  get-repo-info:
+    needs: update-version
+    uses: divkix/reusable-workflows/.github/workflows/get-repo-info.yml@main
+
+  build-and-test:
+    needs: get-repo-info
+    uses: divkix/reusable-workflows/.github/workflows/build-and-test-python-package.yml@main
+    with:
+      custom_commands: ${{ inputs.custom_commands }}
+
+  # create a release on github
+  create-release:
+    needs:
+      - build-and-test
+      - get-repo-info
+    uses: divkix/reusable-workflows/.github/workflows/create-release.yml.yml@main
+    with:
+      tag: ${{ needs.get-repo-info.outputs.tag }}
+
+  push-to-pypi:
+    needs:
+     - release
+     - get-repo-info
+    uses: divkix/reusable-workflows/.github/workflows/push-to-pypi.yml@main
+    with:
+      tag: ${{ needs.get-repo-info.outputs.tag }}
+    secrets:
+      PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
