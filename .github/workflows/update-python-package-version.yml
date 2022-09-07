@@ -5,29 +5,26 @@ on:
     inputs:
       version_level:
         description: "Level of version to update. Can be major, minor or patch"
-        default: ""
-        required: false
+        required: true
         type: string
 
 jobs:
   update-version:
+    if: ${{ inputs.version_level != '' }}
     name: Update package version
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        if: ${{ github.version_level != '' }}
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Bump poetry package
-        if: ${{ github.version_level != '' }}
         run: |
           python -m pip install --upgrade pip setuptools wheel
           pip install --upgrade poetry
           poetry version ${{ inputs.version_level }}
           echo "VERSION=$(poetry version --short)" >> $GITHUB_ENV
       - uses: EndBug/add-and-commit@v9
-        if: ${{ github.version_level != '' }}
         with:
           default_author: github_actions
           message: 'bump to ${{ env.VERSION }}'
