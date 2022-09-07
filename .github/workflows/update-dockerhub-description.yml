@@ -1,0 +1,24 @@
+name: Update DockerHub Description
+
+on:
+  workflow_call:
+    secrets:
+      DOCKERHUB_USERNAME:
+        description: "DockerHub username with access to the repository"
+        required: true
+      DOCKERHUB_PASSWORD:
+        description: "Password for DockerHub user password defined above"
+        required: true
+
+jobs:
+  # update description of the docker image on docker hub
+  update-dockerhub-description:
+    name: Update Description
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
