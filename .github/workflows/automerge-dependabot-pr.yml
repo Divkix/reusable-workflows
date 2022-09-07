@@ -2,6 +2,12 @@ name: Auto Merge Dependabot PR
 
 on:
   workflow_call:
+    inputs:
+      target:
+        type: string
+        description: "Level of dependencies to update"
+        default: "minor"
+        required: false
 
 jobs:
   automerge-dependabot-pr:
@@ -13,4 +19,4 @@ jobs:
     steps:
       - uses: fastify/github-action-merge-dependabot@v3.3.0
         with:
-          target: minor
+          target: ${{ inputs.target }}
