@@ -2,6 +2,16 @@ name: Get Repository Info
 
 on:
   workflow_call:
+    outputs:
+      tag: 
+        description: "The latest tag of the repository"
+        value: ${{ jobs.get-repo-info.outputs.tag }}
+      project_name:
+        description: "The name of the repository (without the owner and lowercased)"
+        value: ${{ jobs.get-repo-info.outputs.project_name }}
+      repo_name: 
+        description: "The name of the repository (with the owner and lowercased)"
+        value: ${{ jobs.get-repo-info.outputs.repo_name }}
 
 jobs:
   get-repo-info:
