@@ -40,10 +40,10 @@ on:
     secrets:
       DOCKERHUB_USERNAME:
         description: "DockerHub username"
-        required: true
+        required: false
       DOCKERHUB_TOKEN:
         description: "DockerHub token with push permissions"
-        required: true
+        required: false
 
 jobs:
   docker-build:
