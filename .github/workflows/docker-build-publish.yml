@@ -40,10 +40,13 @@ on:
     secrets:
       DOCKERHUB_USERNAME:
         description: "DockerHub username"
-        required: false
+        required: true
       DOCKERHUB_TOKEN:
         description: "DockerHub token with push permissions"
-        required: false
+        required: true
+      DOCKERHUB_PASSWORD:
+        description: "DockerHub password"
+        required: true
 
 jobs:
   docker-build:
@@ -131,5 +134,7 @@ jobs:
   update-dockerhub-description:
     if: ${{ inputs.update_description }}
     needs: docker-build
-    uses: divkix/reusable-workflows/.github/workflows/pre-commit-autoupdate.yml@main
-    secrets: inherit
+    uses: divkix/reusable-workflows/.github/workflows/update-dockerhub-description.yml@main
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
