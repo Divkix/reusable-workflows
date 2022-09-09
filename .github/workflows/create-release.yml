@@ -9,7 +9,7 @@ on:
         type: string
       body:
         description: "The body of the release"
-        required: true
+        required: false
         type: string
 
 jobs:
