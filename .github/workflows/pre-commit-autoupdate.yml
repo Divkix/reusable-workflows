@@ -1,7 +1,6 @@
 name: Pre-commit auto-update
 on:
   workflow_call:
-
 jobs:
   auto-update:
     runs-on: ubuntu-latest
@@ -16,6 +15,7 @@ jobs:
       - name: Run pre-commit autoupdate
         run: pre-commit autoupdate
       - name: Create Pull Request
+        id: create_pull_request
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -25,4 +25,10 @@ jobs:
           body: |
             Update versions of tools in pre-commit
             configs to latest version
-          labels: dependencies
+          labels: dependencies, automerge
+      - name: Automerge PR
+        uses: pascalgn/automerge-action@v0.15.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MERGE_METHOD: squash
+          PULL_REQUEST: ${{ steps.create_pull_request.outputs.pull-request-number }}
