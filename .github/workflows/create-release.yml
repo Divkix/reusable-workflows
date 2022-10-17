@@ -24,7 +24,7 @@ jobs:
           ref: ${{ inputs.tag }}
       - name: Set ENV Variables
         run: |-
-          if [[ ${{ inputs.body }} == "" ]] ; then
+          if [[ "${{ inputs.body }}" == "" ]] ; then
             echo "BODY=${{ github.event.repository.name }} ${{ inputs.tag }}" >> $GITHUB_ENV
           else
             echo "BODY=${{ inputs.body }}" >> $GITHUB_ENV
