@@ -26,12 +26,12 @@ jobs:
       id: get_tag
       run: |-
         tag="$(git tag | sort -V | tail -1)"
-        echo "::set-output name=tag::$(git tag | sort -V | tail -1)"
+        echo "{tag}={$tag}" >> $GITHUB_OUTPUT
     - name: Lowercase required vars
       id: lowercase
       run: |-
-        echo "::set-output name=project_name::$(echo ${{ github.event.repository.name }} | tr '[:upper:]' '[:lower:]')"
-        echo "::set-output name=repo_name::$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')"
+        echo "{project_name}=$(echo ${{ github.event.repository.name }} | tr '[:upper:]' '[:lower:]')"
+        echo "{repo_name}=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')"
     outputs:
       tag: ${{ steps.get_tag.outputs.tag }}
       project_name: ${{ steps.lowercase.outputs.project_name }}
