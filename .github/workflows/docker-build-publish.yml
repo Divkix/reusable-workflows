@@ -101,7 +101,13 @@ jobs:
               TAGS+="docker.io/${{ inputs.repo_name }}:latest,"
             fi
             if [ "${{ inputs.tag }}" != "" ]; then
-              TAGS+="docker.io/${{ inputs.repo_name }}:${{ inputs.tag }},"
+              if [[ "${{ inputs.tag }}" == *" "* ]]; then
+                for tag in ${{ inputs.tag }}; do
+                  TAGS+="docker.io/${{ inputs.repo_name }}:${tag},"
+                done
+              else
+                TAGS+="docker.io/${{ inputs.repo_name }}:${{ inputs.tag }},"
+              fi
             fi
           fi
           if [ "${{ inputs.ghcr }}" = "true" ]; then
@@ -109,7 +115,13 @@ jobs:
               TAGS+="ghcr.io/${{ inputs.repo_name }}:latest,"
             fi
             if [ "${{ inputs.tag }}" != "" ]; then
-              TAGS+="ghcr.io/${{ inputs.repo_name }}:${{ inputs.tag }},"
+              if [[ "${{ inputs.tag }}" == *" "* ]]; then
+                for tag in ${{ inputs.tag }}; do
+                  TAGS+="docker.io/${{ inputs.repo_name }}:${tag},"
+                done
+              else
+                TAGS+="docker.io/${{ inputs.repo_name }}:${{ inputs.tag }},"
+              fi
             fi
           fi
           # trim the last comma and set the env var
