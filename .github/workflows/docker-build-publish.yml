@@ -168,7 +168,7 @@ jobs:
   update-dockerhub-description:
     name: Update DockerHub Description
     # only run if update_description is true and dockerhub is true
-    if: ${{ inputs.update_description }} != false && ${{ inputs.dockerhub }} != false
+    if: ${{ inputs.update_description && inputs.dockerhub }}
     needs: docker-build
     uses: divkix/reusable-workflows/.github/workflows/update-dockerhub-description.yml@main
     secrets:
