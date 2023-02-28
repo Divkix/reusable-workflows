@@ -1,4 +1,5 @@
-name: CI
+# this workflow will run GoReleaser to build whenever called, it will not publish
+name: Goreleaser CI
 
 on:
   workflow_call:

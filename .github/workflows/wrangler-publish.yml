@@ -3,6 +3,7 @@ name: Wrangler Publish
 on:
   workflow_call:
     inputs:
+      # using incase we want to use a subdirectory inside the repo
       working-directory:
         type: string
         description: "Working directory"

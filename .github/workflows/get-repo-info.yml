@@ -3,6 +3,7 @@ name: Get Repository Info
 on:
   workflow_call:
     outputs:
+      # set 3 outputs, tag, project_name and repo_name
       tag:
         description: "The tag of the repository to checkout"
         value: ${{ jobs.get-repo-info.outputs.tag }}
@@ -18,19 +19,22 @@ jobs:
     name: Get Repo Info
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout current repo
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - name: Get Latest Tag
-      id: get_tag
-      run: |-
-        echo "tag=$(git tag | sort -V | tail -1)" >> $GITHUB_OUTPUT
-    - name: Lowercase required vars
-      id: lowercase
-      run: |-
-        echo "project_name=$(echo ${{ github.event.repository.name }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
-        echo "repo_name=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+      - name: Checkout current repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Get Latest Tag
+        id: get_tag
+        # get the latest tag from checking out the repo
+        run: |-
+          echo "tag=$(git tag | sort -V | tail -1)" >> $GITHUB_OUTPUT
+      - name: Lowercase required vars
+        # lowercase the project_name and repo_name
+        id: lowercase
+        run: |-
+          echo "project_name=$(echo ${{ github.event.repository.name }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+          echo "repo_name=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
+    # set the outputs
     outputs:
       tag: ${{ steps.get_tag.outputs.tag }}
       project_name: ${{ steps.lowercase.outputs.project_name }}

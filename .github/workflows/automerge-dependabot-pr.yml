@@ -4,6 +4,7 @@ on:
   workflow_call:
     inputs:
       target:
+        # level of dependencies to update, by default it will update anything which is minor or below that
         type: string
         description: "Level of dependencies to update"
         default: "minor"
@@ -11,12 +12,14 @@ on:
 
 jobs:
   automerge-dependabot-pr:
+    # Only run on PRs from Dependabot
     if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
       contents: write
     steps:
+      # use fastify action to merge dependabot PRs
       - uses: fastify/github-action-merge-dependabot@v3.6.1
         with:
           target: ${{ inputs.target }}

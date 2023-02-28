@@ -1,6 +1,8 @@
 name: Pre-commit auto-update
+
 on:
   workflow_call:
+
 jobs:
   auto-update:
     runs-on: ubuntu-latest

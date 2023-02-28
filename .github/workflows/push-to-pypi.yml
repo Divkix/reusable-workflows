@@ -1,3 +1,4 @@
+# TODO: need to change reference in all repositories after rename to 'poetry-push-to-pypi'
 name: Push to PyPI
 
 on:

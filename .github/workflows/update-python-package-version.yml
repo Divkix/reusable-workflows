@@ -1,4 +1,4 @@
-name: Get Repository Info
+name: Update Python Package
 
 on:
   workflow_call:
@@ -7,10 +7,11 @@ on:
         description: "Level of version to update. Can be major, minor or patch"
         required: true
         type: string
+        default: "patch"
 
 jobs:
   update-version:
-    if: ${{ inputs.version_level != '' }}
+    # only run if version_level is not empty, by default it is patch
     name: Update package version
     runs-on: ubuntu-latest
     steps:
@@ -27,6 +28,6 @@ jobs:
       - uses: EndBug/add-and-commit@v9
         with:
           default_author: github_actions
-          message: 'bump to ${{ env.VERSION }}'
-          tag: 'v${{ env.VERSION }} --force'
-          tag_push: '--force'
+          message: "bump to ${{ env.VERSION }}"
+          tag: "v${{ env.VERSION }} --force"
+          tag_push: "--force"

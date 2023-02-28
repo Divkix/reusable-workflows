@@ -4,13 +4,16 @@ on:
   workflow_call:
     inputs:
       tag:
+        # tag to checkout
         description: "The tag of the repository to checkout"
         required: true
         type: string
       body:
+        # body of the release
         description: "The body of the release"
         required: false
         type: string
+        default: ""
 
 jobs:
   release:
@@ -21,8 +24,10 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          # checkout the tag
           ref: ${{ inputs.tag }}
       - name: Set ENV Variables
+        # create the body of the release
         run: |-
           if [[ "${{ inputs.body }}" == "" ]] ; then
             echo "BODY=${{ github.event.repository.name }} ${{ inputs.tag }}" >> $GITHUB_ENV
@@ -30,6 +35,7 @@ jobs:
             echo "BODY=${{ inputs.body }}" >> $GITHUB_ENV
           fi
       - name: Release
+        # create the release
         uses: softprops/action-gh-release@v1
         with:
           name: ${{ inputs.tag }}

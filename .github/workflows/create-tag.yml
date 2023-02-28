@@ -3,6 +3,7 @@ name: Create a new tag
 on:
   workflow_call:
     inputs:
+      # tag to checkout
       tag:
         description: "The tag of the repository to checkout"
         required: true
@@ -13,11 +14,12 @@ jobs:
     name: Create new tag
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Create and Push Tag
-      run: |-
-        git config --global user.email "divkix@divkix.me"
-        git config --global user.name "Divanshu Chauhan"
-        tag=${{ inputs.tag }}
-        git tag -f -a -m "$tag" "$tag"
-        git push -f origin "$tag"
+      - uses: actions/checkout@v3
+      - name: Create and Push Tag
+        # create and push the tag
+        run: |-
+          git config --global user.email "divkix@divkix.me"
+          git config --global user.name "Divanshu Chauhan"
+          tag=${{ inputs.tag }}
+          git tag -f -a -m "$tag" "$tag"
+          git push -f origin "$tag"
