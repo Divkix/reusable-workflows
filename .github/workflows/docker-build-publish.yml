@@ -150,7 +150,9 @@ jobs:
             org.opencontainers.image.version=${{ inputs.tag }}
 
   update-dockerhub-description:
-    if: ${{ inputs.update_description }}
+    name: Update DockerHub Description
+    # only run if update_description is true and dockerhub is true
+    if: ${{ inputs.update_description }} != false && ${{ inputs.dockerhub }} != false
     needs: docker-build
     uses: divkix/reusable-workflows/.github/workflows/update-dockerhub-description.yml@main
     secrets:
