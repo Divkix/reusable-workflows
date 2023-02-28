@@ -2,6 +2,12 @@ name: Wrangler Publish
 
 on:
   workflow_call:
+    inputs:
+      working-directory:
+        type: string
+        description: "Working directory"
+        default: "."
+        required: false
     secrets:
       CLOUDFLARE_ACCOUNT_ID:
         description: "Cloudflare Account ID"
@@ -12,6 +18,9 @@ on:
 
 jobs:
   wrangler-publish:
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
