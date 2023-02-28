@@ -29,10 +29,11 @@ jobs:
       - name: Set ENV Variables
         # create the body of the release
         run: |-
-          if [[ "${{ inputs.body }}" == "" ]] ; then
-            echo "BODY=${{ github.event.repository.name }} ${{ inputs.tag }}" >> $GITHUB_ENV
+          #
+          if [[ -z "${{ inputs.body }}" ]] ; then
+            echo "BODY='${{ github.event.repository.name }} ${{ inputs.tag }}'" >> $GITHUB_ENV
           else
-            echo "BODY=${{ inputs.body }}" >> $GITHUB_ENV
+            echo "BODY='${{ inputs.body }}'" >> $GITHUB_ENV
           fi
       - name: Release
         # create the release
