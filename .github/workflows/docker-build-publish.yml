@@ -133,7 +133,7 @@ jobs:
 
               # if tag has spaces, add each tag
               if [ "${{ inputs.tag }}" != "" ]; then
-                TAGS+="docker.io/${{ inputs.repo_name }}:${{ inputs.tag }},"
+                TAGS+="ghcr.io/${{ inputs.repo_name }}:${{ inputs.tag }},"
               fi
             fi
           fi
