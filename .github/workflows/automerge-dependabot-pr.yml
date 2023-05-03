@@ -20,6 +20,6 @@ jobs:
       contents: write
     steps:
       # use fastify action to merge dependabot PRs
-      - uses: fastify/github-action-merge-dependabot@v3.6.4
+      - uses: fastify/github-action-merge-dependabot@v3.7.0
         with:
           target: ${{ inputs.target }}
