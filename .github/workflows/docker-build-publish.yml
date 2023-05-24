@@ -3,6 +3,11 @@ name: Build and Publish Docker Image
 on:
   workflow_call:
     inputs:
+      build_args:
+        description: "Build args to pass to docker build"
+        required: false
+        type: string
+        default: ""
       repo_name:
         description: "Name of the repository"
         required: true
@@ -156,6 +161,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: ${{ env.TAGS }}
+          build-args: ${{ inputs.build_args }}
           labels: |-
             org.opencontainers.image.authors=${{ github.repository_owner }}
             org.opencontainers.image.created=${{ env.BUILD_DATE }}
