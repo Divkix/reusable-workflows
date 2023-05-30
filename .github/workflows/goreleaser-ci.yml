@@ -40,7 +40,8 @@ jobs:
         uses: crazy-max/ghaction-upx@v2
         with:
           version: latest
-          files: ${{ inputs.upx-binaries }}
+          files: |
+            ${{ inputs.upx-binaries }}
           args: -fq --brute
       - name: Tar files
         run: tar -cvf artifacts.tar dist/
