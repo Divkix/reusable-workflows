@@ -34,7 +34,7 @@ jobs:
           version: latest
           files: |
             dist/**/**
-          args: -q
+          args: -fq --brute
       - run: tar -cvf warp.tar dist/
       - uses: actions/upload-artifact@v3
         with:
