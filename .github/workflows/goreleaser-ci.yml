@@ -43,7 +43,7 @@ jobs:
           files: ${{ inputs.upx-binaries }}
           args: -fq --brute
       - name: Tar files
-        run: tar -cvf warp.tar dist/
+        run: tar -cvf artifacts.tar dist/
       - uses: actions/upload-artifact@v3
         with:
           name: artifacts
