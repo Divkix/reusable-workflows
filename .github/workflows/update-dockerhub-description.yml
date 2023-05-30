@@ -13,6 +13,8 @@ on:
 jobs:
   # update description of the docker image on docker hub
   update-dockerhub-description:
+    permissions:
+      contents: read
     name: Update Description
     runs-on: ubuntu-latest
     steps:

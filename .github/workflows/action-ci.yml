@@ -12,8 +12,6 @@ jobs:
 
   automerge-dependabot-pr:
     name: Automerge Dependabot PRs
-    # needs pre-commit job to finish and pass
     needs:
       - pre-commit
-    # using reusable workflow
     uses: divkix/reusable-workflows/.github/workflows/automerge-dependabot-pr.yml@main

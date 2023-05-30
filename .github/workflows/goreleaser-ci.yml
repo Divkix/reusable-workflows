@@ -14,6 +14,9 @@ jobs:
   ci:
     name: Goreleaser CI
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+      contents: write
     steps:
       - uses: actions/checkout@v3
       - uses: docker/setup-qemu-action@v2
@@ -35,8 +38,8 @@ jobs:
           files: |
             dist/**/**
           args: -fq --brute
-      - run: tar -cvf warp.tar dist/
+      - run: tar -cvf artifacts.tar dist/
       - uses: actions/upload-artifact@v3
         with:
-          name: warp
-          path: warp.tar
+          name: artifacts
+          path: artifacts.tar

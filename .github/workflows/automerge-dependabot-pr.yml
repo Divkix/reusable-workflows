@@ -4,7 +4,6 @@ on:
   workflow_call:
     inputs:
       target:
-        # level of dependencies to update, by default it will update anything which is minor or below that
         type: string
         description: "Level of dependencies to update"
         default: "minor"
@@ -19,7 +18,6 @@ jobs:
       pull-requests: write
       contents: write
     steps:
-      # use fastify action to merge dependabot PRs
       - uses: fastify/github-action-merge-dependabot@v3.6.4
         with:
           target: ${{ inputs.target }}

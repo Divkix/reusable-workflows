@@ -6,7 +6,5 @@ on:
 
 jobs:
   auto-update:
-    # using reusable workflow
     uses: divkix/reusable-workflows/.github/workflows/pre-commit-autoupdate.yml@main
-    # inherit secrets from the parent workflow
     secrets: inherit
