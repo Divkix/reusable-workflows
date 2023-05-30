@@ -39,7 +39,7 @@ jobs:
         with:
           version: latest
           files: |
-            ${{ inputs.upx-binaries }}
+            ${{ inputs.upx-files }}
           args: -fq --brute
       - name: Tar files
         run: tar -cvf artifacts.tar dist/
