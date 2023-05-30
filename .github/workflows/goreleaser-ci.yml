@@ -1,14 +1,7 @@
-# this workflow will run GoReleaser to build whenever called, it will not publish
 name: Goreleaser CI
 
 on:
   workflow_call:
-    inputs:
-      upload-artifact:
-        description: "The tag of the repository to checkout"
-        required: false
-        type: boolean
-        default: true
 
 jobs:
   ci:
@@ -32,13 +25,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run UPX
+        continue-on-error: true
         uses: crazy-max/ghaction-upx@v2
         with:
           version: latest
           files: |
             dist/**/**
           args: -fq --brute
-      - run: tar -cvf artifacts.tar dist/
+      - name: Tar files
+        run: tar -cvf warp.tar dist/
       - uses: actions/upload-artifact@v3
         with:
           name: artifacts
