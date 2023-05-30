@@ -2,13 +2,23 @@ name: Goreleaser CI
 
 on:
   workflow_call:
+    inputs:
+      use-upx:
+        description: "Use UPX to compress the binaries"
+        required: false
+        type: boolean
+        default: false
+      upx-files:
+        description: "Binaries to compress with UPX"
+        required: false
+        type: string
+        default: "dist/**/**"
 
 jobs:
   ci:
     name: Goreleaser CI
     runs-on: ubuntu-latest
     permissions:
-      pull-requests: read
       contents: write
     steps:
       - uses: actions/checkout@v3
@@ -25,12 +35,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run UPX
+        if: ${{ inputs.use-upx }}
         continue-on-error: true
         uses: crazy-max/ghaction-upx@v2
         with:
           version: latest
-          files: |
-            dist/**/**
+          files: ${{ inputs.upx-binaries }}
           args: -fq --brute
       - name: Tar files
         run: tar -cvf warp.tar dist/
