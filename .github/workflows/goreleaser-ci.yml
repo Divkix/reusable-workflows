@@ -13,9 +13,15 @@ on:
         required: false
         type: string
         default: "dist/**/**"
+    secrets:
+      GITHUB_TOKEN:
+        description: "GitHub token"
+        required: true
 
 jobs:
   ci:
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     name: Goreleaser CI
     runs-on: ubuntu-latest
     permissions:
@@ -31,7 +37,7 @@ jobs:
           version: latest
           args: release --snapshot --skip-publish --clean
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
       - name: Run UPX
         if: ${{ inputs.use-upx }}
         continue-on-error: true
