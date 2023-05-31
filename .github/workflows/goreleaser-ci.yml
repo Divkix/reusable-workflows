@@ -14,14 +14,14 @@ on:
         type: string
         default: "dist/**/**"
     secrets:
-      GITHUB_TOKEN:
+      GH_PAT:
         description: "GitHub token"
         required: true
 
 jobs:
   ci:
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GH_PAT }}
     name: Goreleaser CI
     runs-on: ubuntu-latest
     permissions:
