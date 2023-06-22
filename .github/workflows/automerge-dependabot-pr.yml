@@ -18,6 +18,6 @@ jobs:
       pull-requests: write
       contents: write
     steps:
-      - uses: fastify/github-action-merge-dependabot@v3.6.4
+      - uses: fastify/github-action-merge-dependabot@v3.9.0
         with:
           target: ${{ inputs.target }}
